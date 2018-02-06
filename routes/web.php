@@ -16,3 +16,5 @@
 }); */
 
 Route::get('/', 'FrontController@index');
+
+Route::get('post/{id}', 'FrontController@show')->where(['id'=>'[0-9]+']);

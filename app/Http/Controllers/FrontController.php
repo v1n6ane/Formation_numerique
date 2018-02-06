@@ -24,4 +24,12 @@ class FrontController extends Controller
         //aficher la vue 
         return view('front.index', ['posts'=>$posts]);    
     }
+
+    public function show($id){
+        $post = Post::find($id); //retourne un seul livre
+
+        // afficher la vue
+        return view('front.show', ['post' => $post]);
+    }
+    
 }
