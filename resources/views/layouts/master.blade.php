@@ -19,10 +19,19 @@
         </div>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-8">
                 @yield('content')
             </div>
+
+            <div class="col-md-4">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        @include('partials.searchBar')
+                    </li>
+                </ul>
+            </div>
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 @include('partials.menu')

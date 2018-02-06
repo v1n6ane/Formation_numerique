@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Category;
+use Illuminate\Support\Facades\Input;
 
 class FrontController extends Controller
 {
@@ -31,5 +32,21 @@ class FrontController extends Controller
         // afficher la vue
         return view('front.show', ['post' => $post]);
     }
-    
+
+    public function showByType(string $post_type){
+        $posts=Post::where('post_type', $post_type)->paginate($this->paginate);
+        
+        return view('front.type', ['posts' => $posts]);
+    }
+
+    public function research(){
+        $q = Input::get ( 'q' );
+        $posts = Post::where('title','LIKE','%'.$q.'%')
+                    ->orWhere('post_type','LIKE','%'.$q.'%')
+                    ->paginate($this->paginate);
+        if(count($posts) > 0)
+            return view('front.search')->withDetails($posts)->withQuery ( $q );
+        else return view ('front.search')->withMessage('No results found. Try to search again !');
+    }
+
 }

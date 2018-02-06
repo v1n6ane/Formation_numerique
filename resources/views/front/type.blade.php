@@ -2,6 +2,8 @@
 
 @section('content')
 
+{{$posts->links()}}
+
 <div class="row">
     <ul class="list-group">
         @forelse($posts as $post)
@@ -36,10 +38,12 @@
                 <div class="col-xs-6 col-md-4">
                     <p>Date de fin : {{$post->end_date}}</p>
                 </div>
+        
             </div>
         @empty
         <li>Désolé pour l'instant aucun livre n'est publié sur le site</li>
         @endforelse
     </ul>
 </div>
+{{$posts->links()}}
 @endsection 
