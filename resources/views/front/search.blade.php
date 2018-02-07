@@ -2,13 +2,12 @@
 
 @section('content')
 
-{{$details->links()}}
-
 <div class="row">
     <ul class="list-group">
 
     @if(isset($details))
-        <h2>Détails de votre recherche <b>{{ $query }}</b></h2>
+        <h2>Détails de votre recherche "<b>{{ $query }}"</b></h2>
+        {{$details->links()}}
         @foreach($details as $post)
         <li class="list-group-item">
             <h2><a href="{{url('post', $post->id)}}">{{$post->title}}</a></h2>

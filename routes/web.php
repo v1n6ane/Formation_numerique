@@ -33,4 +33,9 @@ Route::get('post/{name}', 'FrontController@showByType')->where(['name'=>'[a-z]+'
     else return view ('front.search')->withMessage('No results found. Try to search again !');
 }); */
 
-Route::any('/search','FrontController@research');
+Route::any('search','FrontController@research')->name('search');
+
+/* Routes pour la page de contact */
+Route::get('contact', 'ContactController@show')->name('contact');
+
+Route::post('contact',  'ContactController@mailToAdmin'); 

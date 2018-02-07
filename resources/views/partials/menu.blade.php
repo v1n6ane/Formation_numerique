@@ -22,6 +22,7 @@
                     <li>Aucun type</li>
                 @endforelse
             @endif
+            <li><a href="{{url('/contact')}}">Contact</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="">Emplacement du logout ensuite</a></li>
