@@ -14,8 +14,6 @@ class Post extends Model
         return $this->belongsTo(Category::class); //associé au plus à une catégorie
     }
 
-    
-
     public function scopePublished($query){
         return $query->where('status', 'published');
     }

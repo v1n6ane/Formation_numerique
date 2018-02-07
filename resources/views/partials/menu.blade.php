@@ -25,7 +25,19 @@
             <li><a href="{{url('/contact')}}">Contact</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="">Emplacement du logout ensuite</a></li>
+      @if(Auth::check()) <!-- retourne true si authentification-->
+        <li><a href="{{route('post.index')}}">Admin</a></li>
+        <li>
+          <a href="{{ route('logout') }}"
+              onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+              Logout
+          </a>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              {{ csrf_field() }}
+          </form>
+        </li>
+      @endif
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

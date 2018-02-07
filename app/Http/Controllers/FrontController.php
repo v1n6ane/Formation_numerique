@@ -39,16 +39,24 @@ class FrontController extends Controller
         return view('front.type', ['posts' => $posts]);
     }
 
-    public function research(){
+    public function research(Request $request){
+
+        $this->validate($request, [
+            'q' => 'required|string',
+        ]);
+
         $q = Input::get ( 'q' );
-        
+
         if($q != ""){
             $posts = Post::where('title','LIKE','%'.$q.'%')
-                    ->orWhere('post_type','LIKE','%'.$q.'%')
-                    ->paginate($this->paginate);
+                        ->orWhere('post_type','LIKE','%'.$q.'%')
+                        ->orWhere('description','LIKE','%'.$q.'%')
+                        ->paginate($this->paginate);
 
             if(count($posts) > 0)
-                return view('front.search')->withDetails($posts)->withQuery ( $q );
+                return view('front.search')->withDetails($posts)->withQuery($q);
+                //l'écriture équivaut à 
+                //view('front.view', ['details' => $posts, 'query' => $q]);
         }           
         return view ('front.search')->withMessage('No results found. Try to search again !');
     }

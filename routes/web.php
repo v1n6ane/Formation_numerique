@@ -39,6 +39,10 @@ Route::any('search','FrontController@research')->name('search');
 Route::get('contact', 'ContactController@show')->name('contact');
 
 Route::post('contact',  'ContactController@mailToAdmin'); 
+
+//Route avec un middleware qui sécurise toutes les actions du contrôleur de ressource
+Route::resource('admin/post', 'PostController')->middleware('auth');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
