@@ -12,7 +12,7 @@ return [
     |
     */
    
-   'email' => '',
-   'name' => '',
+    'email' => 'example@gmail.com',
+    'name' => 'your_name',
     
 ];

@@ -34,10 +34,6 @@
                 <div class="col-xs-6 col-md-4">
                     <p>Date de début : {{$post->start_date}}</p>
                 </div>
-                
-                <div class="col-xs-6 col-md-4">
-                    <p>Date de fin : {{$post->end_date}}</p>
-                </div>
         
             </div>
         @empty

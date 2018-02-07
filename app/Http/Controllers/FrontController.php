@@ -41,6 +41,7 @@ class FrontController extends Controller
 
     public function research(){
         $q = Input::get ( 'q' );
+        
         if($q != ""){
             $posts = Post::where('title','LIKE','%'.$q.'%')
                     ->orWhere('post_type','LIKE','%'.$q.'%')

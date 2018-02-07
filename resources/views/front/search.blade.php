@@ -7,7 +7,7 @@
 
         @if(isset($details))
             <h2>Détails de votre recherche "<b>{{ $query }}"</b></h2>
-            {{$details->links()}}
+            {{$details->appends(request()->only('q'))->links()}}
             @foreach($details as $post)
             <li class="list-group-item">
                 <h2><a href="{{url('post', $post->id)}}">{{$post->title}}</a></h2>
@@ -43,7 +43,7 @@
                 </div>
             </li>
             @endforeach
-            {{$details->links()}}
+            {{$details->appends(request()->only('q'))->links()}}
         @elseif(isset($message))
             <p>{{$message}}</p>
         @endif

@@ -17,7 +17,7 @@
 
                 <div class="form-group">
                     <label for="email">Email: </label>
-                    <input type="text" class="form-control" id="email" placeholder="john@example.com" name="{{old('email')}}" required>
+                    <input type="text" class="form-control" id="email" placeholder="john@example.com" name="email" value="{{old('email')}}"required>
                     @if($errors->has('email'))<span class="error" style="color : red;">{{$errors->first('email')}}</span>@endif
                 </div>
 

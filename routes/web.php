@@ -39,3 +39,6 @@ Route::any('search','FrontController@research')->name('search');
 Route::get('contact', 'ContactController@show')->name('contact');
 
 Route::post('contact',  'ContactController@mailToAdmin'); 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
