@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Post extends Model
 {
@@ -36,5 +37,13 @@ class Post extends Model
         } else {
             $this->attributes['category_id'] = $value;
         }
+    }
+
+    public function getStartDateAttribute($value) {
+        return Carbon::parse($value)->format('d-m-Y');
+    }
+
+    public function getEndDateAttribute($value) {
+        return Carbon::parse($value)->format('d-m-Y');
     }
 }
