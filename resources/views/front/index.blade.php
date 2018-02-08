@@ -22,7 +22,11 @@
                 </div>
         
                 <div class="col-xs-6 col-md-9">
+                    @if(isset($post->category->name))
                     <p>Categorie : {{$post->category->name}}</p>
+                    @else
+                    <p>Categorie : <em>Null</em></p>
+                    @endif
                 </div>
         
                 <div class="col-xs-6 col-md-9">

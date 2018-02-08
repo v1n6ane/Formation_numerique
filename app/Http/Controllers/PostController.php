@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post; //importer l'alias de la classe
+use App\Category;
 
 class PostController extends Controller
 {
@@ -27,7 +28,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $categories=Category::pluck('name', 'id')->all();
+        $types=Post::pluck('post_type')->unique();
+
+        return view('back.post.create', ['categories' => $categories, 'types' => $types]);
     }
 
     /**
@@ -38,7 +42,35 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required|string',
+            'category_id' => 'integer',
+            'type' => 'in:stage,formation',
+            'status' => 'in:published,unpublished',
+            'start_date' => 'date|after:tomorrow',
+            'end_date' => 'date|after:start_date',
+            'picture' => 'image|mimes:jpeg,jpg,png',
+            'title_image' => 'string|nullable',
+        ]);
+
+        $post = Post::create($request->all()); //hydratation avec les données du livre enregistré en BDD - champs renseignés dans la classe dans la variable fillable
+        
+        //image
+        $image = $request->file('picture');
+
+        if(!empty($image)){
+
+            //méthode store retourne un lien hash sécurisé
+            $link = $request->file('picture')->store('./');
+
+            //mettre à jour la table picture pour le lien vers l'image dans la bdd
+            $post->picture()->create([
+                'link' => $link,
+                'title' => $request->title_image?? $request->title
+            ]);
+        }
+        return redirect()->route('post.index')->with('message', "L'article a été ajouté avec succès");
     }
 
     /**

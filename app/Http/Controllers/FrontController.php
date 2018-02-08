@@ -20,7 +20,7 @@ class FrontController extends Controller
     }
 
     public function index(){
-        $posts = Post::orderBy('start_date')->paginate(2); //retourne les posts ordonnés par date de début, paginer par 2
+        $posts = Post::published()->orderBy('start_date')->paginate(2); //retourne les posts ordonnés par date de début, paginer par 2
 
         //aficher la vue 
         return view('front.index', ['posts'=>$posts]);    
