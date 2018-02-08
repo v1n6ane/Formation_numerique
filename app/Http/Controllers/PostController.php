@@ -7,6 +7,7 @@ use App\Post; //importer l'alias de la classe
 
 class PostController extends Controller
 {
+    protected $paginate = 10;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return "dashboard";
+        $posts = Post::paginate($this->paginate); //retourne les livres paginés par 10
+        //aficher la vue
+        return view('back.post.index', ['posts'=>$posts]);
     }
 
     /**

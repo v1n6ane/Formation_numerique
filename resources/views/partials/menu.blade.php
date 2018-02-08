@@ -21,8 +21,9 @@
                     @empty
                     <li>Aucun type</li>
                 @endforelse
+                <li><a href="{{url('/contact')}}">Contact</a></li>
             @endif
-            <li><a href="{{url('/contact')}}">Contact</a></li>
+            
       </ul>
       <ul class="nav navbar-nav navbar-right">
       @if(Auth::check()) <!-- retourne true si authentification-->

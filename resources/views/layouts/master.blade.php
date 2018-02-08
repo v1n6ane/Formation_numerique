@@ -18,6 +18,7 @@
             </div>
         </div>
 
+        @if(Route::is('post.**') == false)
         <div class="row">
             <div class="col-md-8">
                 @yield('content')
@@ -31,13 +32,25 @@
                 </ul>
             </div>
         </div>
+        
+        @else
+        <div class="row">
+            <div class="col-md-12">
+                @yield('content')
+            </div>
+        </div>
+        @endif
 
         <div class="row">
             <div class="col-md-12">
                 @include('partials.menu')
             </div>
         </div>
+        
     </div>
+
+
+        
 
 @section('scripts')
 <script src="{{asset('js/app.js')}}"></script>
