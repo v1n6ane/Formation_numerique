@@ -7,12 +7,12 @@
         <div class="col-sm-6">
             <h2>Créer un article : </h2>
         </div>
-        <div class="col-sm-6">
+        <!-- <div class="col-sm-6">
             <button class="btn btn-primary" type="submit">Ajouter le nouvel article</button>
-        </div>
+        </div> -->
     </div>
         
-    <div class="row"></div>
+    <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
                 <label for="title" class="control-label">Titre : </label>
@@ -27,7 +27,7 @@
 
             <div class="form-group">
                 <label for="category_id" class="control-label">Category : </label>
-                <select name="category_id" id="category_id" >
+                <select name="category_id" id="category_id" class="form-control">
                     <option value="0" {{ is_null(old('category_id'))? 'selected' : '' }}>Pas de categorie</option>
                 @foreach($categories as $id => $name)
                     <option value="{{$id}}" {{ old('category_id')==$id ? 'selected' : '' }}>{{$name}}</option>
@@ -36,25 +36,16 @@
             </div>
 
             <div class="form-group">
-                <div class="row">
-                    <div class="col-md-2">
-                        <label for="type" class="control-label">Type : </label>
-                    </div>
-
-                    <div class="col-md-6">
-                        @foreach($types as $type)
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="types" id="type" value="{{$type}}" @if(old('type')=="{{$type}}") checked @endif>                                                                      
-                                {{$type}}
-                            </label>
-                        </div>
-                        @endforeach
-                    </div>
-                    @if($errors->has('type'))<p class="error bg-warning text-warning">{{$errors->first('type')}}</p>@endif
-                </div>
+                <label for="type" class="control-label">Type d'article : </label>
+                <select name="post_type" id="post_type" class="form-control">
+                    <option value="0" {{ is_null(old('post_type'))? 'selected' : '' }}>Pas de type</option>
+                    @foreach($types as $type)
+                    <option value="{{$type}}" {{ old('post_type')==$type ? 'selected' : '' }}>{{$type}}</option>
+                @endforeach
+                </select>
+                @if($errors->has('type'))<p class="error bg-warning text-warning">{{$errors->first('type')}}</p>@endif
             </div>
-
+            
             <div class="form-group">
                 <label for="title_image" class="control-label">Titre de l'image: </label>
                 <input type="text" name="title_image" id="title_image" class="form-control" value="{{old('title_image')}}" placeholder="Titre de l'image">
@@ -78,7 +69,7 @@
 
             <div class="form-group">
                 <label for="price" class="control-label">Prix : </label>
-                <input type="number" name="price" id="price" class="form-control" value="{{old('price')}}">
+                <input type="number" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" name="price" id="price" class="form-control currency" value="{{old('price')}}"/>
                 @if($errors->has('price'))<p class="error bg-warning text-warning">{{$errors->first('price')}}</p>@endif
             </div>
 
@@ -104,12 +95,16 @@
                             <input type="radio" class="form-check-input" name="status" id="status_unpublished" value="unpublished" {{ old('status')=="unpublished" ? 'checked' : '' }}>
                             Dépublier
                         </label>
-                    </div> 
+                    </div>
                 </div>
+            </div>
+
+            <div class="form-group text-right">
+                <button class="btn btn-primary" type="submit">Ajouter le nouvel article</button>
             </div>
         </div>
     </div>
+    
 </form>
-
 
 @endsection

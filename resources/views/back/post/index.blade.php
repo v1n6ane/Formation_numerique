@@ -22,22 +22,34 @@
   <!-- Table -->
   <table class="table">
     <thead>
-        <td>Titre</td>
-        <td>Type</td>
-        <td>Date de début</td>
-        <td>Date de fin</td>
-        <td>Status</td>
-        <td>Editer</td>
-        <td>Montrer</td>
-        <td>Supprimer</td>
+        <tr>
+            <th>Titre</th>
+            <th>Type</th>
+            <th>Catégorie</th>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+            <th>Nombre d'étudiant</th>
+            <th>Price €</th>
+            <th>Status</th>
+            <th>Editer</th>
+            <th>Montrer</th>
+            <th>Supprimer</th>
+        </tr>
     </thead>
     <tbody>
     @forelse($posts as $post)
     <tr>
         <td>{{$post->title}}</td>
         <td>{{$post->post_type}}</td>
+        @if(isset($post->category->name))
+        <td>{{$post->category->name}}</td>
+        @else
+        <td><em>Null</em></td>
+        @endif
         <td>{{$post->start_date}}</td>
         <td>{{$post->end_date}}</td>
+        <td>{{$post->nb_max_student}}</td>
+        <td>{{$post->price}}</td>
         @if($post->status=='published')
         <td><span class="label label-success">{{$post->status}}</span></td>
         @else

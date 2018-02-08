@@ -50,6 +50,7 @@ class PostController extends Controller
             'status' => 'in:published,unpublished',
             'start_date' => 'date|after:tomorrow',
             'end_date' => 'date|after:start_date',
+            'price' => 'regex:/^\d*(\.\d{2})?$/',
             'picture' => 'image|mimes:jpeg,jpg,png',
             'title_image' => 'string|nullable',
         ]);
@@ -81,7 +82,11 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::find($id); //retourne un seul livre
+
+        // afficher la vue
+        return view('back.post.show', ['post' => $post]);
+
     }
 
     /**
