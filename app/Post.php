@@ -39,11 +39,20 @@ class Post extends Model
         }
     }
 
-    public function getStartDateAttribute($value) {
-        return Carbon::parse($value)->format('d-m-Y');
+   public function getStartDateAttribute($value) {
+        if (\Route::current()->getName() == 'post.edit') {
+            // We are on a correct route!
+            return $value;
+        }  
+        return Carbon::parse($value)->format('d/m/Y');
     }
 
     public function getEndDateAttribute($value) {
-        return Carbon::parse($value)->format('d-m-Y');
-    }
+        if (\Route::current()->getName() == 'post.edit') {
+            // We are on a correct route!
+            return $value;
+        } 
+        return Carbon::parse($value)->format('d/m/Y');
+    } 
+
 }

@@ -24,16 +24,16 @@
     <thead>
         <tr>
             <th>Titre</th>
-            <th>Type</th>
-            <th>Catégorie</th>
-            <th>Date de début</th>
-            <th>Date de fin</th>
-            <th>Nombre d'étudiant</th>
-            <th>Price €</th>
-            <th>Status</th>
-            <th>Editer</th>
-            <th>Montrer</th>
-            <th>Supprimer</th>
+            <th class="text-center">Type</th>
+            <th class="text-center">Catégorie</th>
+            <th class="text-center">Date de début</th>
+            <th class="text-center">Date de fin</th>
+            <th class="text-center">Nombre d'étudiant</th>
+            <th class="text-center">Price €</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Editer</th>
+            <th class="text-center">Montrer</th>
+            <th class="text-center">Supprimer</th>
         </tr>
     </thead>
     <tbody>
@@ -48,7 +48,7 @@
         @endif
         <td>{{$post->start_date}}</td>
         <td>{{$post->end_date}}</td>
-        <td>{{$post->nb_max_student}}</td>
+        <td class="text-center">{{$post->nb_max_student}}</td>
         <td>{{$post->price}}</td>
         @if($post->status=='published')
         <td><span class="label label-success">{{$post->status}}</span></td>

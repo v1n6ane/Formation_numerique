@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post; //importer l'alias de la classe
 use App\Category;
+use Storage;
 
 class PostController extends Controller
 {
@@ -16,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate($this->paginate); //retourne les livres paginés par 10
+        $posts = Post::with('picture', 'category')->paginate($this->paginate); //retourne les livres paginés par 10
         //aficher la vue
         return view('back.post.index', ['posts'=>$posts]);
     }
@@ -83,10 +84,8 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id); //retourne un seul livre
-
-        // afficher la vue
+        
         return view('back.post.show', ['post' => $post]);
-
     }
 
     /**
@@ -97,7 +96,13 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id); //retourne un seul livre
+
+        //dd($post->start_date);
+        $categories=Category::pluck('name', 'id')->all();
+        $types=Post::pluck('post_type')->unique();
+
+        return view('back.post.edit', ['post' => $post, 'categories' => $categories, 'types' => $types]);
     }
 
     /**
@@ -109,7 +114,44 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required|string',
+            'category_id' => 'integer',
+            'type' => 'in:stage,formation',
+            'status' => 'in:published,unpublished',
+            'start_date' => 'date|after:tomorrow',
+            'end_date' => 'date|after:start_date',
+            'price' => 'regex:/^\d*(\.\d{2})?$/',
+            'picture' => 'image|mimes:jpeg,jpg,png',
+            'title_image' => 'string|nullable',
+        ]);
+
+        $post = Post::find($id);
+
+        $post->update($request->all());
+
+        //mise à jour de l'image
+        $image = $request->file('picture');
+
+        if(!empty($image)){
+            //suppression de l'image précédente
+            if(count($post->picture)>0){
+                Storage::disk('local')->delete($post->picture->link); //supprimer physiquement l'image
+                $post->picture()->delete(); //supprimer l'information en BDD
+            }
+
+            //méthode store retourne un lien hash sécurisé
+            $link = $request->file('picture')->store('./');
+
+            //ajouter la nouvelle image dans la bdd
+            $post->picture()->create([
+                'link' => $link,
+                'title' => $request->title_image?? $request->title
+            ]);
+        }
+
+        return redirect()->route('post.index')->with('message', 'Le livre a été mis à jour avec succès');
     }
 
     /**
