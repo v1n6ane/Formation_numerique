@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 use App\Post; //importer l'alias de la classe
 use App\Category;
 use Storage;
+use Illuminate\Support\Facades\Input;
 
 class PostController extends Controller
 {
@@ -41,20 +43,9 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'description' => 'required|string',
-            'category_id' => 'integer',
-            'type' => 'in:stage,formation',
-            'status' => 'in:published,unpublished',
-            'start_date' => 'date|after:tomorrow',
-            'end_date' => 'date|after:start_date',
-            'price' => 'regex:/^\d*(\.\d{2})?$/',
-            'picture' => 'image|mimes:jpeg,jpg,png',
-            'title_image' => 'string|nullable',
-        ]);
+        //Validation dans le PostRequest
 
         $post = Post::create($request->all()); //hydratation avec les données du livre enregistré en BDD - champs renseignés dans la classe dans la variable fillable
         
@@ -112,20 +103,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'description' => 'required|string',
-            'category_id' => 'integer',
-            'type' => 'in:stage,formation',
-            'status' => 'in:published,unpublished',
-            'start_date' => 'date|after:tomorrow',
-            'end_date' => 'date|after:start_date',
-            'price' => 'regex:/^\d*(\.\d{2})?$/',
-            'picture' => 'image|mimes:jpeg,jpg,png',
-            'title_image' => 'string|nullable',
-        ]);
+        //Validation dans le PostRequest
 
         $post = Post::find($id);
 
@@ -168,4 +148,25 @@ class PostController extends Controller
 
         return redirect()->route('post.index')->with('message', 'Le livre a été supprimé avec succès');
     }
+
+    public function research(Request $request){
+
+        $this->validate($request, [
+            'q' => 'required|string',
+        ]);
+
+        $q = Input::get ( 'q' );
+
+        if($q != ""){
+            
+            $posts = Post::research($q)->paginate($this->paginate);
+
+            if(count($posts) > 0)
+                return view('back.post.search')->withDetails($posts)->withQuery($q);
+                //l'écriture équivaut à 
+                //view('front.view', ['details' => $posts, 'query' => $q]);
+        }           
+        return view ('back.post.search')->withMessage('No results found. Try to search again !');
+    }
+
 }

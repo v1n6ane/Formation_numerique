@@ -15,5 +15,13 @@ mix.js('resources/assets/js/app.js', 'public/js')
     .js('resources/assets/js/confirm.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
     .browserSync({
-        proxy:'localhost:8000'
+        // pour faire fonctionner debug bar + npm run watch
+        proxy: {
+            target: 'localhost:8000',
+            reqHeaders: function() {
+                return {
+                    host: 'localhost:3000'
+                };
+            }
+        }
     });

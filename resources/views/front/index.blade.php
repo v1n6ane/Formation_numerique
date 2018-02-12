@@ -6,7 +6,7 @@
     <ul class="list-group">
         @forelse($posts as $post)
         <li class="list-group-item">
-        <h2><a href="{{url('post', $post->id)}}">{{$post->title}}</a></h2>
+        <h2><a href="{{route('show_post', [$post->id, $post->slug])}}">{{$post->title}}</a></h2>
             <div class="row">
             
                 @if(count($post->picture) > 0)
@@ -34,11 +34,11 @@
                 </div>
                 
                 <div class="col-xs-6 col-md-4">
-                    <p>Date de début : {{$post->start_date}}</p>
+                    <p>Date de début : {{$post->start_date_fr}}</p>
                 </div>
                 
                 <div class="col-xs-6 col-md-4">
-                    <p>Date de fin : {{$post->end_date}}</p>
+                    <p>Date de fin : {{$post->end_date_fr}}</p>
                 </div>
             </div>
         @empty

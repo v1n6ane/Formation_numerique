@@ -26,7 +26,7 @@
             </div>
 
             <div class="form-group">
-                <label for="category_id" class="control-label">Category : </label>
+                <label for="category_id" class="control-label">Categorie : </label>
                 <select name="category_id" id="category_id" class="form-control">
                     <option value="0" {{ is_null(old('category_id'))? 'selected' : '' }}>Pas de categorie</option>
                 @foreach($categories as $id => $name)
@@ -36,14 +36,14 @@
             </div>
 
             <div class="form-group">
-                <label for="type" class="control-label">Type d'article : </label>
+                <label for="post_type" class="control-label">Type d'article : </label>
                 <select name="post_type" id="post_type" class="form-control">
                     <option value="0" {{ is_null(old('post_type'))? 'selected' : '' }}>Pas de type</option>
                     @foreach($types as $type)
                     <option value="{{$type}}" {{ old('post_type')==$type ? 'selected' : '' }}>{{$type}}</option>
-                @endforeach
+                    @endforeach
                 </select>
-                @if($errors->has('type'))<p class="error bg-warning text-warning">{{$errors->first('type')}}</p>@endif
+                @if($errors->has('post_type'))<p class="error bg-warning text-warning">{{$errors->first('post_type')}}</p>@endif
             </div>
             
             <div class="form-group">

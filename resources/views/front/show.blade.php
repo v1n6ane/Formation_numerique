@@ -28,8 +28,8 @@
             </div>
             <div class="col-xs-9 col-md-4">
                 <ul>
-                    <li>Date de début : {{$post->start_date}}</li>
-                    <li>Date de fin : {{$post->end_date}}</li>
+                    <li>Date de début : {{$post->start_date_fr}}</li>
+                    <li>Date de fin : {{$post->end_date_fr}}</li>
                     <li>Prix : {{$post->price}} €</li>
                 </ul>
             </div>

@@ -5,17 +5,24 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="row">
-            <div class="col-sm-4 align-top"> 
-                {{$posts->links()}}
-            </div>
-            <div class="col-sm-3 align-bottom">
+            <div class="col-sm-7">
                 <a class="btn btn-primary" href="{{route('post.create')}}" role="button">Ajouter un post</a>
             </div>
+
+            <div class="col-sm-5 text-right">
+                @include('back.post.partials.searchBar')
+            </div>
+        </div>
+
+        <div class="row">
+            
         </div>
     </div>
 </div>
 
 @include('back.post.partials.flash')
+
+{{$posts->links()}}
 
 <div class="panel panel-default">
 

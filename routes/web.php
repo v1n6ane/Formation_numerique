@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Input;
 
 Route::get('/', 'FrontController@index');
 
-Route::get('post/{id}', 'FrontController@show')->where(['id'=>'[0-9]+']);
+Route::get('post/{id}/{slug?}', 'FrontController@show')->where(['id'=>'[0-9]+'])->name('show_post');
 
 Route::get('post/{name}', 'FrontController@showByType')->where(['name'=>'[a-z]+']);
 
@@ -34,6 +34,8 @@ Route::get('post/{name}', 'FrontController@showByType')->where(['name'=>'[a-z]+'
 }); */
 
 Route::any('search','FrontController@research')->name('search');
+
+Route::any('admin/search','PostController@research')->name('post.search');
 
 /* Routes pour la page de contact */
 Route::get('contact', 'ContactController@show')->name('contact');

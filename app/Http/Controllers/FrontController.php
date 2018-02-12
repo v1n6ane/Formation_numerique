@@ -20,7 +20,7 @@ class FrontController extends Controller
     }
 
     public function index(){
-        $posts = Post::published()->orderBy('start_date')->paginate(2); //retourne les posts ordonnés par date de début, paginer par 2
+        $posts = Post::whereRaw('start_date >= now()' )->published()->with('picture', 'category')->orderBy('start_date')->take(2)->get(); //retourne les posts ordonnés par date de début, paginer par 2
 
         //aficher la vue 
         return view('front.index', ['posts'=>$posts]);    
@@ -48,10 +48,15 @@ class FrontController extends Controller
         $q = Input::get ( 'q' );
 
         if($q != ""){
-            $posts = Post::where('title','LIKE','%'.$q.'%')
+            /* $posts = Post::where('title','LIKE','%'.$q.'%')
                         ->orWhere('post_type','LIKE','%'.$q.'%')
                         ->orWhere('description','LIKE','%'.$q.'%')
-                        ->paginate($this->paginate);
+                        ->orwhereHas('category', function($category)use($q){ 
+                            return $category->where('name','LIKE','%'.$q.'%'); 
+                        })
+                        ->paginate($this->paginate); */
+
+            $posts = Post::research($q)->published()->paginate($this->paginate);
 
             if(count($posts) > 0)
                 return view('front.search')->withDetails($posts)->withQuery($q);

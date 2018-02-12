@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -31,6 +32,15 @@ class Post extends Model
         return $query->where('status', 'published');
     }
 
+    public function scopeResearch($query, $q){
+            return $query->where('title','LIKE','%'.$q.'%')
+                        ->orWhere('post_type','LIKE','%'.$q.'%')
+                        ->orWhere('description','LIKE','%'.$q.'%')
+                        ->orwhereHas('category', function($category)use($q){ 
+                            return $category->where('name','LIKE','%'.$q.'%'); 
+                        });
+    }
+    
     public function setCategoryIdAttribute($value){
         if($value==0){
             $this->attributes['category_id'] = null;
@@ -39,20 +49,27 @@ class Post extends Model
         }
     }
 
-   public function getStartDateAttribute($value) {
-        if (\Route::current()->getName() == 'post.edit') {
-            // We are on a correct route!
-            return $value;
-        }  
+    //renvoie la date au format FR
+    public function getStartDateFrAttribute($value) {
         return Carbon::parse($value)->format('d/m/Y');
     }
 
-    public function getEndDateAttribute($value) {
-        if (\Route::current()->getName() == 'post.edit') {
-            // We are on a correct route!
-            return $value;
-        } 
+    //renvoie la date au format FR
+    public function getEndDateFrAttribute($value) {
         return Carbon::parse($value)->format('d/m/Y');
     } 
+
+    //renvoie la date au format normal
+    /* public function getStartDateAttribute(){
+        return $this->attributes['start_date'];
+    }
+
+    public function getEndDateAttribute(){
+        return $this->attributes['end_date'];
+    } */
+
+    public function getSlugAttribute($value){ // $post->slug
+        return Str::slug($this->attributes['title']); // Ma formation à moi perso ===> ma_formation_moi_perso
+    }
 
 }
