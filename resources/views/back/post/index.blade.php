@@ -7,6 +7,7 @@
         <div class="row">
             <div class="col-sm-7">
                 <a class="btn btn-primary" href="{{route('post.create')}}" role="button">Ajouter un post</a>
+                <button class="btn btn-primary delete_all" data-url="{{ route('deleteAll') }}">Supprime les sélections</button>
             </div>
 
             <div class="col-sm-5 text-right">
@@ -25,11 +26,13 @@
 {{$posts->links()}}
 
 <div class="panel panel-default">
-
   <!-- Table -->
   <table class="table">
     <thead>
         <tr>
+            <th width="50px">
+                <input type="checkbox" id="master">
+            </th>
             <th>Titre</th>
             <th class="text-center">Type</th>
             <th class="text-center">Catégorie</th>
@@ -46,6 +49,7 @@
     <tbody>
     @forelse($posts as $post)
     <tr>
+        <td><input type="checkbox" class="sub_chk" data-id="{{$post->id}}"></td>
         <td>{{$post->title}}</td>
         <td>{{$post->post_type}}</td>
         @if(isset($post->category->name))
@@ -88,9 +92,15 @@
 </div>
 
 {{$posts->links()}}
+
+@section('scripts')
+    @parent
+    <script src="{{asset('js/confirm.js')}}"></script> <!-- Ne pas oublier de le mettre dans le webpack.mix.pj aussi !! -->
 @endsection
 
 @section('scripts')
     @parent
-    <script src="{{asset('js/confirm.js')}}"></script>
+    <script src="{{asset('js/deleteAll.js')}}"></script>
+@endsection
+
 @endsection

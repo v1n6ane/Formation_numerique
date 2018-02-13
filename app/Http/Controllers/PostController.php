@@ -169,4 +169,11 @@ class PostController extends Controller
         return view ('back.post.search')->withMessage('No results found. Try to search again !');
     }
 
+    public function deleteAll(Request $request)
+    {
+        $ids = $request->ids;
+        Post::whereIn('id',explode(",",$ids))->delete();
+        return response()->json(['success'=>"Products Deleted successfully."]);
+    }
+
 }

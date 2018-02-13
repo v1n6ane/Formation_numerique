@@ -48,3 +48,5 @@ Route::resource('admin/post', 'PostController')->middleware('auth');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::delete('myproductsDeleteAll', 'PostController@deleteAll')->name('deleteAll');
