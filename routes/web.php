@@ -40,7 +40,7 @@ Route::any('admin/search','PostController@research')->name('post.search');
 /* Routes pour la page de contact */
 Route::get('contact', 'ContactController@show')->name('contact');
 
-Route::post('contact',  'ContactController@mailToAdmin'); 
+Route::post('contact', 'ContactController@mailToAdmin');
 
 //Route avec un middleware qui sécurise toutes les actions du contrôleur de ressource
 Route::resource('admin/post', 'PostController')->middleware('auth');
@@ -49,4 +49,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//route pour le deleteAll
 Route::delete('myproductsDeleteAll', 'PostController@deleteAll')->name('deleteAll');
+
+//route pour updater le status
+Route::any('admin/post/{id}/updateStatus', 'PostController@updateStatus')->where(['id'=>'[0-9]+'])->name('post.updateStatus');

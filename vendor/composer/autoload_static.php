@@ -345,6 +345,7 @@ class ComposerStaticInit6817435c50c015c91828ece23f9c81b7
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Requests\\ContactFormRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ContactFormRequest.php',
+        'App\\Http\\Requests\\PostRequest' => __DIR__ . '/../..' . '/app/Http/Requests/PostRequest.php',
         'App\\Notifications\\InboxMessage' => __DIR__ . '/../..' . '/app/Notifications/InboxMessage.php',
         'App\\Picture' => __DIR__ . '/../..' . '/app/Picture.php',
         'App\\Post' => __DIR__ . '/../..' . '/app/Post.php',

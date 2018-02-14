@@ -33,7 +33,7 @@
             <th width="50px">
                 <input type="checkbox" id="master">
             </th>
-            <th>Titre</th>
+            <th class="text-center">Titre</th>
             <th class="text-center">Type</th>
             <th class="text-center">Catégorie</th>
             <th class="text-center">Date de début</th>
@@ -61,11 +61,24 @@
         <td>{{$post->end_date}}</td>
         <td class="text-center">{{$post->nb_max_student}}</td>
         <td>{{$post->price}}</td>
-        @if($post->status=='published')
-        <td><span class="label label-success">{{$post->status}}</span></td>
-        @else
-        <td><span class="label label-warning">{{$post->status}}</span></td>
-        @endif
+        
+        
+        <td>
+            <!-- <span class="label label-success">{{$post->status}}</span> -->
+            <form action="{{route('post.updateStatus', $post->id)}}" method="post" >
+                {{method_field('PUT')}} <!-- méthode update -->
+                {{ csrf_field() }}
+                @if($post->status=='published')
+                <input type="hidden" name="status" class="form-control" value="unpublished">
+                <button class="btn btn-success btn-sm" type="submit">{{$post->status}}</button>
+                @else
+                <input type="hidden" name="status" class="form-control" value="published">
+                <button class="btn btn-warning btn-sm" type="submit">{{$post->status}}</button>
+                @endif
+            </form>
+        </td>
+        
+
         <td class="text-center">
             <a href="{{route('post.edit', $post->id)}}" class="glyphicon glyphicon-edit" aria-hidden="true"></a>
         </td>
@@ -92,15 +105,11 @@
 </div>
 
 {{$posts->links()}}
+@endsection
 
 @section('scripts')
     @parent
     <script src="{{asset('js/confirm.js')}}"></script> <!-- Ne pas oublier de le mettre dans le webpack.mix.pj aussi !! -->
-@endsection
-
-@section('scripts')
-    @parent
     <script src="{{asset('js/deleteAll.js')}}"></script>
 @endsection
 
-@endsection

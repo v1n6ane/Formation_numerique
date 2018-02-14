@@ -23,6 +23,14 @@ class PostRequest extends FormRequest
      */
     public function rules()
     {
+        /* $input=FormRequest::validationData();
+
+        if(sizeOf($input)==3){
+            return [
+                'status' => 'in:published,unpublished',
+            ];
+        } */
+
         return [
             'title' => 'required',
             'description' => 'required|string',

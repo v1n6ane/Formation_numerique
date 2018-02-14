@@ -17,6 +17,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $posts = Post::with('picture', 'category')->paginate($this->paginate); //retourne les livres paginés par 10
@@ -24,6 +25,7 @@ class PostController extends Controller
         return view('back.post.index', ['posts'=>$posts]);
     }
 
+   
     /**
      * Show the form for creating a new resource.
      *
@@ -134,6 +136,20 @@ class PostController extends Controller
         return redirect()->route('post.index')->with('message', 'Le livre a été mis à jour avec succès');
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+        //Validation 
+        $this->validate($request, [
+            'status' => 'in:published,unpublished',
+        ]);
+
+        $post = Post::find($id);
+
+        $post->update($request->all());
+
+        return redirect()->route('post.index')->with('message', 'Le livre a été mis à jour avec succès');
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -173,6 +189,7 @@ class PostController extends Controller
     {
         $ids = $request->ids;
         Post::whereIn('id',explode(",",$ids))->delete();
+
         return response()->json(['success'=>"Products Deleted successfully."]);
     }
 

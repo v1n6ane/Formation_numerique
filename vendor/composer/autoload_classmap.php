@@ -26,6 +26,7 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Http\\Requests\\ContactFormRequest' => $baseDir . '/app/Http/Requests/ContactFormRequest.php',
+    'App\\Http\\Requests\\PostRequest' => $baseDir . '/app/Http/Requests/PostRequest.php',
     'App\\Notifications\\InboxMessage' => $baseDir . '/app/Notifications/InboxMessage.php',
     'App\\Picture' => $baseDir . '/app/Picture.php',
     'App\\Post' => $baseDir . '/app/Post.php',
