@@ -50,13 +50,15 @@ class Post extends Model
     }
 
     //renvoie la date au format FR
-    public function getStartDateFrAttribute($value) {
-        return Carbon::parse($value)->format('d/m/Y');
+    public function getStartDateFrAttribute() {
+        return Carbon::parse($this->attributes['start_date'])->format('d/m/Y');
+
+        //Carbon\Carbon::parse($quotes->created_at)->format('d-m-Y i')
     }
 
     //renvoie la date au format FR
-    public function getEndDateFrAttribute($value) {
-        return Carbon::parse($value)->format('d/m/Y');
+    public function getEndDateFrAttribute() {
+        return Carbon::parse($this->attributes['end_date'])->format('d/m/Y');
     } 
 
     //renvoie la date au format normal
