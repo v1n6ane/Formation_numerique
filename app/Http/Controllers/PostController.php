@@ -8,6 +8,7 @@ use App\Post; //importer l'alias de la classe
 use App\Category;
 use Storage;
 use Illuminate\Support\Facades\Input;
+use Cache;
 
 class PostController extends Controller
 {

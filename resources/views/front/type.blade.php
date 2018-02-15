@@ -8,7 +8,7 @@
     <ul class="list-group">
         @forelse($posts as $post)
         <li class="list-group-item">
-        <h2><a href="{{url('post', $post->id)}}">{{$post->title}}</a></h2>
+        <h2><a href="{{route('show_post', [$post->id, $post->slug])}}">{{$post->title}}</a></h2>
             <div class="row">
             
                 @if(count($post->picture) > 0)

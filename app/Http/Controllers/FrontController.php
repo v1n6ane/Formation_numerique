@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\Category;
 use Illuminate\Support\Facades\Input;
+use Cache;
 
 class FrontController extends Controller
 {
     protected $paginate = 5;
 
     public function __construct(){
-        //methode pour injecter des données à une vue partielle  à l'appel de la classe
+        //methode pour injecter des données à une vue partielle à l'appel de la classe
         view()->composer('partials.menu', function($view){
             $types = Post::pluck('post_type', 'id')->unique(); //on récupère un tableau associatif ['id'=>'post_type']
             $view->with('types', $types); //on passe les données à la vue
@@ -20,7 +21,13 @@ class FrontController extends Controller
     }
 
     public function index(){
-        $posts = Post::whereRaw('start_date >= now()' )->published()->with('picture', 'category')->orderBy('start_date')->take(2)->get(); //retourne les posts ordonnés par date de début, paginer par 2
+        $prefix = request()->page?? '1';
+        $path = 'post' . $prefix;
+
+        //mise en place du cache
+        $posts = Cache::remember($path, env('CACHE_TIME'), function(){ //le cache_time est a mettre dans le fichier .env
+            return Post::whereRaw('end_date > now()')->published()->with('picture', 'category')->orderBy('start_date')->take(2)->get(); //retourne les posts ordonnés par date de début, paginer par 2
+        });
 
         //aficher la vue 
         return view('front.index', ['posts'=>$posts]);    
