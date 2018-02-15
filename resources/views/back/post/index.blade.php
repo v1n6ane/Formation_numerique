@@ -23,7 +23,7 @@
 
 @include('back.post.partials.flash')
 
-{{$posts->links()}}
+{!! $posts->appends(\Request::except('page'))->render() !!}
 
 <div class="panel panel-default">
   <!-- Table -->
@@ -33,14 +33,14 @@
             <th width="50px">
                 <input type="checkbox" id="master">
             </th>
-            <th class="text-center">Titre</th>
-            <th class="text-center">Type</th>
-            <th class="text-center">Catégorie</th>
-            <th class="text-center">Date de début</th>
-            <th class="text-center">Date de fin</th>
-            <th class="text-center">Nombre d'étudiant</th>
-            <th class="text-center">Price €</th>
-            <th class="text-center">Status</th>
+            <th class="text-center">@sortablelink('title', 'Titre' )</th>
+            <th class="text-center">@sortablelink('post_type', 'Type')</th>
+            <th class="text-center">@sortablelink('category.name', 'Catégory')</th>
+            <th class="text-center">@sortablelink('start_date', 'Date de début')</th>
+            <th class="text-center">@sortablelink('end_date', 'Date de fin')</th>
+            <th class="text-center">@sortablelink('nb_max_student', "Nombre max")</th>
+            <th class="text-center">@sortablelink('price', 'Prix €')</th>
+            <th class="text-center">@sortablelink('status', 'Status')</th>
             <th class="text-center">Editer</th>
             <th class="text-center">Montrer</th>
             <th class="text-center">Supprimer</th>
@@ -57,11 +57,10 @@
         @else
         <td><em>Null</em></td>
         @endif
-        <td>{{$post->start_date}}</td>
-        <td>{{$post->end_date}}</td>
+        <td>{{$post->start_date_fr}}</td>
+        <td>{{$post->end_date_fr}}</td>
         <td class="text-center">{{$post->nb_max_student}}</td>
         <td>{{$post->price}}</td>
-        
         
         <td>
             <!-- <span class="label label-success">{{$post->status}}</span> -->
@@ -78,7 +77,6 @@
             </form>
         </td>
         
-
         <td class="text-center">
             <a href="{{route('post.edit', $post->id)}}" class="glyphicon glyphicon-edit" aria-hidden="true"></a>
         </td>
@@ -102,9 +100,11 @@
 
     </tbody>
   </table>
+  
 </div>
 
-{{$posts->links()}}
+{!! $posts->appends(\Request::except('page'))->render() !!}
+
 @endsection
 
 @section('scripts')

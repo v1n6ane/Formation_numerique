@@ -177,6 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /* Application de tri des colonnes */
+        Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
+        
     ],
 
     /*

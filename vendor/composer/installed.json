@@ -707,6 +707,65 @@
         ]
     },
     {
+        "name": "kyslik/column-sortable",
+        "version": "5.6.0",
+        "version_normalized": "5.6.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Kyslik/column-sortable.git",
+            "reference": "8901868fd19901a040bd314fc900ef2c8071c543"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Kyslik/column-sortable/zipball/8901868fd19901a040bd314fc900ef2c8071c543",
+            "reference": "8901868fd19901a040bd314fc900ef2c8071c543",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/database": "5.5.*|5.6.*",
+            "illuminate/support": "5.5.*|5.6.*",
+            "php": ">=7.0"
+        },
+        "require-dev": {
+            "orchestra/testbench": "3.5.*|3.6.*",
+            "phpunit/phpunit": "^6.0|^7.0"
+        },
+        "time": "2018-02-12T06:30:52+00:00",
+        "type": "package",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "Kyslik\\ColumnSortable\\ColumnSortableServiceProvider"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Kyslik\\ColumnSortable\\": "src/ColumnSortable/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Martin Kiesel",
+                "email": "martin.kiesel@gmail.com",
+                "role": "Developer and maintainer"
+            }
+        ],
+        "description": "Package for handling column sorting in Laravel 5.x",
+        "keywords": [
+            "column",
+            "laravel",
+            "sort",
+            "sortable",
+            "sorting"
+        ]
+    },
+    {
         "name": "laravel/framework",
         "version": "v5.5.33",
         "version_normalized": "5.5.33.0",

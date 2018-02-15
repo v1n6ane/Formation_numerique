@@ -20,7 +20,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::with('picture', 'category')->paginate($this->paginate); //retourne les livres paginés par 10
+        $posts = Post::with('picture', 'category')->sortable()->paginate($this->paginate); //retourne les livres paginés par 10
         //aficher la vue
         return view('back.post.index', ['posts'=>$posts]);
     }
