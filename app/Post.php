@@ -5,9 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Kyslik\ColumnSortable\Sortable;
 
 class Post extends Model
 {
+    use Sortable;
+
     protected $fillable = [
         'title', 
         'description', 
@@ -20,6 +23,21 @@ class Post extends Model
         'category_id'
     ];
 
+    public $sortable = [
+        'id',
+        'title', 
+        'description', 
+        'start_date',
+        'end_date', 
+        'price', 
+        'nb_max_student', 
+        'post_type', 
+        'status',  
+        'category_id',
+        'created_at',
+        'updated_at'
+    ];
+    
     public function picture(){
         return $this->hasOne(Picture::class);
     }
