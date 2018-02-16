@@ -26,6 +26,9 @@ class CreatePostsTable extends Migration
 
             $table->unsignedInteger('category_id')->nullable(); //UNSIGNED INTEGER un liver peut ne pas avoir de genre
             $table->foreign('category_id')->references('id')->on('categories'); //contrainte référencée sur la table genre.id
+            
+            $table->softDeletes(); //colonne pour le soft delete
+
             $table->timestamps();
         });
     }

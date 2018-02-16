@@ -8,7 +8,7 @@
     <li class="list-group-item">
         <div class="row">
             <div class="col-md-10">
-            <h2><a href="{{url('post', $post->id)}}">{{$post->title}}</a></h2>
+            <h2>{{$post->title}}</h2>
             </div>
             <div class="col-md-2">
                 <form class="delete" action="{{route('post.destroy', $post->id)}}" method="post" >
