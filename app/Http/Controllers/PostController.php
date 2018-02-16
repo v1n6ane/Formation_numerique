@@ -13,20 +13,24 @@ use Cache;
 class PostController extends Controller
 {
     protected $paginate = 10;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index()
     {
+        //code sans les soft deleted
         $posts = Post::with('picture', 'category')->sortable()->paginate($this->paginate); //retourne les livres paginés par 10
+        
+        //code avec les posts soft deleted
+        //$posts = Post::with('picture', 'category')->sortable()->withTrashed()->paginate($this->paginate); //retourne les livres paginés par 10
+        
         //aficher la vue
         return view('back.post.index', ['posts'=>$posts]);
     }
 
-   
     /**
      * Show the form for creating a new resource.
      *
@@ -134,9 +138,18 @@ class PostController extends Controller
             ]);
         }
 
-        return redirect()->route('post.index')->with('message', 'Le livre a été mis à jour avec succès');
+        return redirect()
+            ->route('post.index')
+            ->with('message', 'Le livre a été mis à jour avec succès');
     }
 
+    /**
+     * Update the specified status in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function updateStatus(Request $request, $id)
     {
         //Validation 
@@ -148,7 +161,9 @@ class PostController extends Controller
 
         $post->update($request->all());
 
-        return redirect()->route('post.index')->with('message', 'Le livre a été mis à jour avec succès');
+        return redirect()
+            ->route('post.index')
+            ->with('message', 'Le livre a été mis à jour avec succès');
     }
 
     /**
@@ -157,13 +172,31 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        $post = Post::find($id);
-        
+
         $post->delete();
 
-        return redirect()->route('post.index')->with('message', 'Le livre a été supprimé avec succès');
+        return redirect()
+            ->route('post.index')
+            ->with('message', 'Le livre a été mis à la corbeille avec succès');
+    }
+
+    /**
+     * Remove the specified resources from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyAll(Request $request)
+    {
+        $ids = $request->ids;
+        Post::whereIn('id',explode(",",$ids))->delete();
+
+        return response()->json([
+            'success'=>"Products Deleted successfully.",
+            'error'=>"error deleted"
+            ]);
     }
 
     public function research(Request $request){
@@ -186,12 +219,87 @@ class PostController extends Controller
         return view ('back.post.search')->withMessage('No results found. Try to search again !');
     }
 
-    public function deleteAll(Request $request)
+    /**
+     * Show the soft deleted resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showTrash()
     {
-        $ids = $request->ids;
-        Post::whereIn('id',explode(",",$ids))->delete();
-
-        return response()->json(['success'=>"Products Deleted successfully."]);
+        //seulement les posts soft deleted
+        $posts = Post::onlyTrashed()->with('picture', 'category')->sortable()->paginate($this->paginate); //retourne les livres paginés par 10
+        
+        //aficher la vue
+        return view('back.post.trash', ['posts'=>$posts]);
     }
 
+    /**
+     * Force remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function forceDelete(int $id){
+
+        //récupérer l'élément
+        $post = Post::withTrashed()
+            ->where('id', $id)
+            ->first();
+        
+        // supprimer l'image physiquement !        
+        if(count($post->picture)>0){
+            Storage::disk('local')->delete($post->picture->link); //supprimer physiquement l'image
+            $post->picture()->delete(); //supprimer l'information en BDD
+        }
+
+        //supprimer le post
+        $post->forceDelete();
+       
+        /* Post::withTrashed()
+            ->where('id', $id)
+            ->forceDelete(); */
+
+        return redirect()
+                ->route('post.trash')
+                ->with('message', 'Le post a été supprimé avec succès');
+        
+    }
+
+    public function forceDeleteAll(Request $request)
+    {
+        Post::withTrashed()
+            ->whereIn('id', explode(",",$request->ids)?? [])
+            ->forceDelete();
+
+        return response()->json([
+            'success'=>"Products Deleted successfully.",
+            'error'=>"error deleted"
+        ]);
+    }
+
+    public function restore(int $id){
+
+        //récupérer le post
+        $post = Post::withTrashed()
+            ->where('id', $id)
+            ->first();
+        
+        //dd($post);
+        
+        //modifier le status du post
+        $post->update(array('status'=>'unpublished'));
+        //Post::whereIn('id', $id)->update(['status'=>'unpublished']);
+
+        //restaurer le post
+        $post->restore();
+        /* Post::withTrashed()
+            ->where('id', $id)
+            ->restore(); */
+
+        //retourner la vue trash
+        return redirect()
+                ->route('post.trash')
+                ->with('message', 'Le post a été restauré avec succès');
+    }
 }

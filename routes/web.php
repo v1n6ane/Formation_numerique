@@ -42,15 +42,41 @@ Route::get('contact', 'ContactController@show')->name('contact');
 
 Route::post('contact', 'ContactController@mailToAdmin');
 
-//Route avec un middleware qui sécurise toutes les actions du contrôleur de ressource
-Route::resource('admin/post', 'PostController')->middleware('auth');
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//route pour le deleteAll
-Route::delete('myproductsDeleteAll', 'PostController@deleteAll')->name('deleteAll');
+//Route avec un middleware qui sécurise toutes les actions du contrôleur de ressource
+Route::resource('admin/post', 'PostController')->middleware('auth');
 
-//route pour updater le status
-Route::any('admin/post/{id}/updateStatus', 'PostController@updateStatus')->where(['id'=>'[0-9]+'])->name('post.updateStatus');
+//Routes dans un groupe avec un middleware qui sécurise toutes les actions des contrôleurs de ressource
+Route::middleware(['auth'])->group(function(){
+
+    //Route pour supprimer plusieurs post en même temps
+    Route::delete('admin/destroy/all', 'PostController@destroyAll')
+        ->name('post.destroyAll');
+
+    //route pour updater le status
+    Route::any('admin/post/{id}/updateStatus', 'PostController@updateStatus')
+        ->where(['id'=>'[0-9]+'])
+        ->name('post.updateStatus');
+
+    //Route pour afficher la corbeille côté back
+    Route::get('admin/trash','PostController@showTrash')
+        ->name('post.trash');
+
+    //Route pour supprimer vraiment un post de la corbeille
+    Route::delete('admin/force/delete/{id}','PostController@forceDelete')
+        ->where(['id'=>'[0-9]+'])
+        ->name('post.forceDelete');
+
+    //Route pour supprimer vraiment plusieurs posts de la corbeille
+    Route::delete('admin/delete/all', 'PostController@forceDeleteAll')
+        ->name('post.forceDeleteAll');
+
+    //Route pour restaurer le post de la corbeille
+    Route::put('admin/restore/{id}', 'PostController@restore')
+        ->where(['id'=>'[0-9]+'])
+        ->name('post.restore');
+    
+});

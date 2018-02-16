@@ -2,12 +2,12 @@
 
 @section('content')
 
-<div class="row">
+<div class="row" id="app">
     <div class="col-sm-12">
         <div class="row">
             <div class="col-sm-7">
                 <a class="btn btn-primary" href="{{route('post.create')}}" role="button">Ajouter un post</a>
-                <button class="btn btn-primary delete_all" data-url="{{ route('post.destroyAll') }}">Supprime les sélections</button>
+                <button class="btn btn-primary delete_all" data-url="{{ route('post.forceDeleteAll') }}">Supprime les sélections</button>
             </div>
 
             <div class="col-sm-5 text-right">
@@ -37,13 +37,10 @@
             <th class="text-center">@sortablelink('title', 'Titre' )</th>
             <th class="text-center">@sortablelink('post_type', 'Type')</th>
             <th class="text-center">@sortablelink('category.name', 'Catégory')</th>
-            <th class="text-center">@sortablelink('start_date', 'Date de début')</th>
-            <th class="text-center">@sortablelink('end_date', 'Date de fin')</th>
-            <th class="text-center">@sortablelink('nb_max_student', "Nombre max")</th>
-            <th class="text-center">@sortablelink('price', 'Prix €')</th>
-            <th class="text-center">@sortablelink('status', 'Status')</th>
-            <th class="text-center">Editer</th>
-            <th class="text-center">Montrer</th>
+            <th class="text-center">@sortablelink('created_at', 'Date de création')</th>
+            <th class="text-center">@sortablelink('deleted_at', 'Date de suppression')</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Restaurer</th>
             <th class="text-center">Supprimer</th>
         </tr>
     </thead>
@@ -55,38 +52,26 @@
         <td>{{$post->title}}</td>
         <td>{{$post->post_type}}</td>
         @if(isset($post->category->name))
-        <td>{{$post->category->name}}</td>
+            <td>{{$post->category->name}}</td>
         @else
-        <td><em>Null</em></td>
+            <td><em>Null</em></td>
         @endif
-        <td>{{$post->start_date_fr}}</td>
-        <td>{{$post->end_date_fr}}</td>
-        <td class="text-center">{{$post->nb_max_student}}</td>
-        <td>{{$post->price}}</td>
-        
+        <td>{{$post->created_at}}</td>
+        <td>{{$post->deleted_at}}</td>        
         <td>
-            <!-- <span class="label label-success">{{$post->status}}</span> -->
-            <form action="{{route('post.updateStatus', $post->id)}}" method="post" >
-                {{method_field('PUT')}} <!-- méthode update -->
+            <span class="label label-default">Supprimé</span>
+        </td>
+        
+        <td class="text-center">
+            <form action="{{route('post.restore', $post->id)}}" method="post" >
+                {{method_field('PUT')}} <!-- méthode delete -->
                 {{ csrf_field() }}
-                @if($post->status=='published')
-                <input type="hidden" name="status" class="form-control" value="unpublished">
-                <button class="btn btn-success btn-sm" type="submit">{{$post->status}}</button>
-                @else
-                <input type="hidden" name="status" class="form-control" value="published">
-                <button class="btn btn-warning btn-sm" type="submit">{{$post->status}}</button>
-                @endif
+                <button class="btn btn-link glyphicon glyphicon-upload" type="submit"></button>
             </form>
         </td>
-        
+
         <td class="text-center">
-            <a href="{{route('post.edit', $post->id)}}" class="glyphicon glyphicon-edit" aria-hidden="true"></a>
-        </td>
-        <td class="text-center">
-            <a href="{{route('post.show', $post->id)}}" class="glyphicon glyphicon-eye-open" aria-hidden="true"></a>
-        </td>
-        <td class="text-center">
-            <form class="delete" action="{{route('post.destroy', $post->id)}}" method="post" >
+            <form class="delete" action="{{route('post.forceDelete', $post->id)}}" method="post" >
                 {{method_field('DELETE')}} <!-- méthode delete -->
                 {{ csrf_field() }}
                 <button class="btn btn-link glyphicon glyphicon-trash" type="submit"></button>

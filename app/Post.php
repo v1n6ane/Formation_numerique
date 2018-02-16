@@ -6,11 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
     use Sortable;
+    use SoftDeletes;
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
+    /**
+     * The attributes that should be stored in database.
+     *
+     * @var array
+     */
     protected $fillable = [
         'title', 
         'description', 
@@ -23,6 +37,11 @@ class Post extends Model
         'category_id'
     ];
 
+    /**
+     * The attributes that should be sort
+     *
+     * @var array
+     */
     public $sortable = [
         'id',
         'title', 

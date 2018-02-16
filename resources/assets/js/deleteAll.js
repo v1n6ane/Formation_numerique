@@ -9,15 +9,12 @@ $(document).ready(function () {
     }  
     });
 
-
     $('.delete_all').on('click', function(e) {
-
 
         var allVals = [];  
         $(".sub_chk:checked").each(function() {  
             allVals.push($(this).attr('data-id'));
         });  
-
 
         if(allVals.length <=0)  
         {  
@@ -62,7 +59,6 @@ $(document).ready(function () {
         }  
     });
 
-
     $('[data-toggle=confirmation]').confirmation({
         rootSelector: '[data-toggle=confirmation]',
         onConfirm: function (event, element) {
@@ -74,7 +70,6 @@ $(document).ready(function () {
     $(document).on('confirm', function (e) {
         var ele = e.target;
         e.preventDefault();
-
 
         $.ajax({
             url: ele.href,

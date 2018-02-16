@@ -28,6 +28,7 @@
       <ul class="nav navbar-nav navbar-right">
       @if(Auth::check()) <!-- retourne true si authentification-->
         <li><a href="{{route('post.index')}}">Admin</a></li>
+        <li><a href="{{route('post.trash')}}">Corbeille</a></li>
         <li>
           <a href="{{ route('logout') }}"
               onclick="event.preventDefault();
